@@ -1,3 +1,6 @@
+// version uses react-beautiful-dnd
+// issue -> input not editable
+
 import React from 'react';
 import ReactDOM from 'react-dom'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
