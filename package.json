@@ -30,7 +30,6 @@
     "eslint-plugin-prettier": "^2.2.0",
     "flow-bin": "^0.53.1",
     "gh-pages": "^1.0.0",
-    "husky": "^0.14.3",
     "lint-staged": "^4.0.4",
     "pre-render": "^0.1.0-preview.2",
     "prettier": "^1.6.1",
@@ -44,17 +43,20 @@
     "stylelint-processor-styled-components": "^0.4.0"
   },
   "lint-staged": {
-    "*.js": ["eslint --no-ignore --fix", "git add"],
-    "*.json": ["prettier --write", "git add"]
+    "*.js": [
+      "eslint --no-ignore --fix",
+      "git add"
+    ],
+    "*.json": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "scripts": {
     "precommit": "lint-staged",
-    "lint":
-      "eslint --ignore-path .gitignore --ignore-pattern \"!**/.*\" . && stylelint \"./src/**/*.js\"",
-    "fix":
-      "eslint --ignore-path .gitignore --ignore-pattern \"!**/.*\" --fix .",
-    "relay":
-      "node ./setup --download-schema && relay-compiler --src ./src --schema ./src/schema.graphql",
+    "lint": "eslint --ignore-path .gitignore --ignore-pattern \"!**/.*\" . && stylelint \"./src/**/*.js\"",
+    "fix": "eslint --ignore-path .gitignore --ignore-pattern \"!**/.*\" --fix .",
+    "relay": "node ./setup --download-schema && relay-compiler --src ./src --schema ./src/schema.graphql",
     "build": "node ./setup && react-scripts build && node ./render",
     "test": "node ./setup && react-scripts test --env=jsdom",
     "deploy": "node ./setup && react-scripts build && gh-pages -d build",

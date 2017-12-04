@@ -36,9 +36,7 @@ export function reorder(list, startIndex, endIndex) {
 }
 
 // using some little inline style helpers to make the app look okay
-const grid = 8;
 export function getItemStyle(draggableStyle, isDragging) {
-  console.log(draggableStyle)
   const styles = {
     // some basic styles to make the items look a bit nicer
     // userSelect: 'none',
