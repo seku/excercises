@@ -34,37 +34,3 @@ export function reorder(list, startIndex, endIndex) {
 
   return result;
 }
-
-// using some little inline style helpers to make the app look okay
-const grid = 8;
-export function getItemStyle(draggableStyle, isDragging) {
-  console.log(draggableStyle)
-  const styles = {
-    // some basic styles to make the items look a bit nicer
-    // userSelect: 'none',
-    // padding: grid * 2,
-    // marginBottom: grid,
-    //
-    // // change background colour if dragging
-    // background: isDragging ? '#cdd1aa' : 'grey',
-
-    // styles we need to apply on draggables
-    ...draggableStyle,
-  }
-  return styles;
-}
-export function getListStyle(isDraggingOver) {
-  // const styles = {
-  //   background: isDraggingOver ? '#cdd1aa' : 'lightgrey',
-  // }
-  // return styles;
-}
-
-export function getExercisesListStyle() {
-  // const styles = {
-  //   paddingLeft: '25%',
-  //   paddingRight: '25%'
-  // }
-  const styles = {}
-  return styles
-}
