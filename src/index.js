@@ -1,8 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
 import uuid from 'uuid'
 import moment from 'moment';
+
+// drag & drop
+import { DragDropContext } from 'react-dnd'
+import update from 'immutability-helper'
+import HTML5Backend from 'react-dnd-html5-backend'
+import Card from './Card'
 
 import 'rc-time-picker/assets/index.css'
 import TimePicker from 'rc-time-picker';
@@ -64,17 +70,6 @@ class Dashboard extends React.Component {
       runningSince: null
     });
   };
-  reorderExersicesList = (result) => {  // dropped outside the list
-    if (!result.destination) {
-      return;
-    }
-    const reorderedExercises = helpers.reorder(
-      this.state.exercises,
-      result.source.index,
-      result.destination.index
-    );
-    this.setState({exercises: reorderedExercises});
-  }
 
   render() {
     return (
@@ -86,7 +81,6 @@ class Dashboard extends React.Component {
               exercises={this.state.exercises}
               updateExercise={this.updateExercise}
               deleteExercise={this.deleteExercise}
-              reorderExersicesList={this.reorderExersicesList}
             />
             <ToggleableExerciseForm submitForm={this.addNewExercise}/>
           </div>
@@ -130,58 +124,73 @@ class ToggleableExerciseForm extends React.Component {
 }
 
 class EditableExercisesList extends React.Component {
+  state = {
+    cards: [
+				{
+					id: 1,
+					text: 'Write a cool JS library',
+				},
+				{
+					id: 2,
+					text: 'Make it generic enough',
+				},
+				{
+					id: 3,
+					text: 'Write README',
+				},
+				{
+					id: 4,
+					text: 'Create some examples',
+				},
+				{
+					id: 5,
+					text:
+						'Spam in Twitter and IRC to promote it (note that this element is taller than the others)',
+				},
+				{
+					id: 6,
+					text: '???',
+				},
+				{
+					id: 7,
+					text: 'PROFIT',
+				},
+			]
+  }
   submitForm = (exercise) => {
     this.props.updateExercise(exercise)
   }
-  onDragEnd = (result) => {
-    this.props.reorderExersicesList(result)
-  }
+
+  moveCard = (dragIndex, hoverIndex) => {
+		const { cards } = this.state
+		const dragCard = cards[dragIndex]
+
+		this.setState(
+			update(this.state, {
+				cards: {
+					$splice: [[dragIndex, 1], [hoverIndex, 0, dragCard]],
+				},
+			}),
+		)
+	}
+
   render() {
+    const { cards } = this.state
+    const style = {
+    	width: 400,
+    }
     return (
-      <div
-        id='exercises'
-        style={helpers.getExercisesListStyle()}
-      >
-        <DragDropContext onDragEnd={this.onDragEnd}>
-          <Droppable droppableId="droppable">
-            {(provided, snapshot) => (
-              <div
-                ref={provided.innerRef}
-                style={helpers.getListStyle(snapshot.isDraggingOver)}
-              >
-                {this.props.exercises.map(exercise => (
-                  <Draggable key={exercise.id} draggableId={exercise.id}>
-                    {(provided, snapshot) => (
-                      <div>
-                        <div
-                          ref={provided.innerRef}
-                          style={helpers.getItemStyle(
-                            provided.draggableStyle,
-                            snapshot.isDragging
-                          )}
-                          {...provided.dragHandleProps}
-                        >
-                          <EditableExercise
-                            id={exercise.id}
-                            key={exercise.id}
-                            title={exercise.title}
-                            duration={exercise.duration}
-                            pause={exercise.pause}
-                            submitForm={this.submitForm}
-                            deleteExercise={this.props.deleteExercise}
-                          />
-                        </div>
-                        {provided.placeholder}
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-      </div>
+      <div style={style}>
+				{cards.map((card, i) => (
+					<Card
+						key={card.id}
+						index={i}
+						id={card.id}
+						text={card.text}
+						moveCard={this.moveCard}
+					/>
+				))}
+			</div>
     );
   }
 }
@@ -369,3 +378,5 @@ ReactDOM.render(
   <Dashboard />,
   document.getElementById('content')
 );
+
+export default DragDropContext(HTML5Backend)(Dashboard)

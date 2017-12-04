@@ -63,6 +63,23 @@ if (!text.includes('babel-plugin-transform-export-extensions')) {
 }
 
 //
+// Inject "babel-plugin-transform-decorators-legacy"
+//
+file = path.resolve('./node_modules/babel-preset-react-app/index.js');
+text = fs.readFileSync(file, 'utf8');
+
+if (!text.includes('babel-plugin-transform-decorators-legacy')) {
+  if (text.includes('const plugins = [')) {
+    text = text.replace(
+      'const plugins = [',
+      "const plugins = [\n  require.resolve('babel-plugin-transform-decorators-legacy'),"); // prettier-ignore
+    fs.writeFileSync(file, text, 'utf8');
+  } else {
+    throw new Error(`Failed to inject babel-plugin-transform-decorators-legacy in ${file}.`); // prettier-ignore
+  }
+}
+
+//
 // Download the GraphQL schema
 // -----------------------------------------------------------------------------
 if (process.argv.includes('--download-schema')) {
