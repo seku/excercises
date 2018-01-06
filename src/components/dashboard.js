@@ -9,8 +9,8 @@ import EditableExercisesList from './editable_exercises_list'
 
 export default class Dashboard extends React.Component {
   state = {
-    elapsed: 0,
-    runningSince: null,
+    totalElapsed: 0,
+    isRunning: false,
     exercises: [
       {
         title: 'Practice squat',
@@ -51,16 +51,20 @@ export default class Dashboard extends React.Component {
     this.setState({exercises: newExercises})
   }
   startTimer = () => {
-    const now = Date.now();
-    this.setState({runningSince: now});
+    this.forceUpdateInterval = setInterval(() => this.updateBySecond(), 1000);
+    this.setState({isRunning: true})
+  };
+  updateBySecond = () => {
+    const totalElapsed = this.state.totalElapsed + 1
+    this.setState({totalElapsed: totalElapsed});
+  };
+  pauseTimer = () => {
+    clearInterval(this.forceUpdateInterval);
+    this.setState({isRunning: false})
   };
   stopTimer = () => {
-    const now = Date.now();
-    const lastElapsed = now - this.state.runningSince;
-    this.setState({
-      elapsed: this.state.elapsed + lastElapsed,
-      runningSince: null
-    });
+    clearInterval(this.forceUpdateInterval);
+    this.setState({isRunning: false, totalElapsed: 0})
   };
   reorderExersicesList = (result) => {  // dropped outside the list
     if (!result.destination) {
@@ -90,7 +94,7 @@ export default class Dashboard extends React.Component {
           </div>
           <div className='column centered'>
             <h1>Timer</h1>
-            <Timer runningSince={this.state.runningSince} elapsed={this.state.elapsed} startTimer={this.startTimer} stopTimer={this.stopTimer}/>
+            <Timer isRunning={this.state.isRunning} totalElapsed={this.state.totalElapsed} startTimer={this.startTimer} pauseTimer={this.pauseTimer} stopTimer={this.stopTimer}/>
           </div>
         </div>
       </div>

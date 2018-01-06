@@ -9,17 +9,24 @@ export default class Timer extends React.Component {
     clearInterval(this.forceUpdateInterval);
   }
   toggleRunning = () => {
-    if (!!this.props.runningSince) {
-      this.props.stopTimer()
+    if (!!this.props.isRunning) {
+      this.props.pauseTimer()
     } else {
       this.props.startTimer()
     }
   }
   render() {
-    const elapsedString = helpers.renderElapsedString(
-      this.props.elapsed, this.props.runningSince
-    )
-    const actionText = !!this.props.runningSince ? 'Stop' : 'Start'
+    let actionText;
+    if (!!this.props.isRunning) {
+      actionText = 'Pause'
+    } else {
+      if (this.props.totalElapsed === 0) {
+        actionText = 'Start'
+      } else {
+        actionText = 'Resume'
+      }
+    }
+    const elapsedString = helpers.secondsToHuman(this.props.totalElapsed)
     return (
       <div className='ui centered card'>
         <div className='content'>
@@ -32,8 +39,13 @@ export default class Timer extends React.Component {
             </h2>
           </div>
         </div>
-        <div className='ui bottom attached blue basic button' onClick={this.toggleRunning}>
-          {actionText}
+        <div className='ui two bottom attached buttons'>
+          <div className='ui basic button blue' onClick={this.toggleRunning}>
+            {actionText}
+          </div>
+          <button className='ui basic button red' onClick={this.props.stopTimer}>
+            Stop
+          </button>
         </div>
       </div>
     );
