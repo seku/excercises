@@ -1,6 +1,24 @@
 import React from 'react';
 import * as helpers from './../helpers'
 export default class Exercise extends React.Component {
+  state = {
+    isDurationFinished: false,
+    isPauseFinished: false
+  }
+  componentDidUpdate = () => {
+    if (this.state.isPauseFinished && this.props.elapsed === 0) {
+      this.setState({
+        isDurationFinished: false,
+        isPauseFinished: false
+      })
+    } else if (!this.state.isDurationFinished && this.props.elapsed === this.props.duration) {
+      console.log(`PLAY sound exercise finished (${this.props.title})`)
+      this.setState({isDurationFinished: true})
+    } else if (!this.state.isPauseFinished && (this.props.pause + this.props.duration === this.props.elapsed)) {
+      console.log(`PLAY sound pause finished after ${this.props.title}`)
+      this.setState({isPauseFinished: true})
+    }
+  }
   durationLeft = () => {
     const elapsed      = this.props.elapsed
     const duration     = this.props.duration
@@ -14,9 +32,18 @@ export default class Exercise extends React.Component {
     const pauseLeft = (duration - elapsed > 0) ? pause : (pause + (duration - elapsed))
     return helpers.formattedSecondsToMoment(pauseLeft)
   }
+  isFinished = () => {
+    let styles
+    if (this.state.isDurationFinished) {
+      styles = {
+        border: '1px solid red'
+      }
+    }
+    return styles
+  }
   render() {
     return (
-      <div className='ui centered card'>
+      <div className='ui centered card' style={this.isFinished()}>
         <div className='content'>
           <div className='header'>
             {this.props.title}

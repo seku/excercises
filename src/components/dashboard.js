@@ -59,9 +59,7 @@ export default class Dashboard extends React.Component {
     const totalElapsed      = this.state.totalElapsed + 1
     const exercises         = this.state.exercises
     const exercise          = exercises.find(e =>  {
-      console.log("e", e.elapsed)
       return (e.pause + e.duration) > e.elapsed
-      // return e.pause > 0
     })
     if (exercise) {
       const index             = exercises.indexOf(exercise)
