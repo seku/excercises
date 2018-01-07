@@ -2,6 +2,7 @@ import React from 'react';
 import uuid from 'uuid'
 import * as helpers from './../helpers'
 import Timer from './timer'
+import TotalTime from './total_time'
 import AddNewExercise from './add_new_exercise'
 import EditableExercisesList from './editable_exercises_list'
 import startSoundFile from '../sounds/start_sound.mp3'
@@ -112,7 +113,12 @@ export default class Dashboard extends React.Component {
     );
     this.setState({exercises: reorderedExercises});
   }
-
+  totalTime = () => {
+    let totalTime = this.state.exercises.map(exercise => {
+      return exercise.duration + exercise.pause
+    })
+    return totalTime.reduce((sum, x) => sum + x)
+  }
   render() {
     return (
       <div className='ui two column centered grid'>
@@ -130,6 +136,7 @@ export default class Dashboard extends React.Component {
           <div className='column centered'>
             <h1>Timer</h1>
             <Timer isRunning={this.state.isRunning} totalElapsed={this.state.totalElapsed} startTimer={this.startTimer} pauseTimer={this.pauseTimer} stopTimer={this.stopTimer}/>
+            <TotalTime totalTime={this.totalTime()}/>
           </div>
         </div>
       </div>
