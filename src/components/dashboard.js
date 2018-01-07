@@ -1,7 +1,5 @@
 import React from 'react';
 import uuid from 'uuid'
-import moment from 'moment';
-
 import * as helpers from './../helpers'
 import Timer from './timer'
 import AddNewExercise from './add_new_exercise'
@@ -9,19 +7,21 @@ import EditableExercisesList from './editable_exercises_list'
 
 export default class Dashboard extends React.Component {
   state = {
-    totalElapsed: 0,
+    totalElapsed: 0, // sec
     isRunning: false,
     exercises: [
       {
         title: 'Practice squat',
         id: uuid.v4(),
-        duration: moment(new Date(2010, 1, 1, 0, 5, 0)),
-        pause: moment(new Date(2010, 1, 1, 0, 2, 0))
+        duration: 5, //s
+        pause: 2, //s
+        elapsed: 0
       }, {
         title: 'Bake squash',
         id: uuid.v4(),
-        duration: moment(new Date(2010, 1, 1, 0, 5, 0)),
-        pause: moment(new Date(2010, 1, 1, 0, 2, 0))
+        duration: 5, //s
+        pause: 2, //ms
+        elapsed: 0
       }
     ]
   }

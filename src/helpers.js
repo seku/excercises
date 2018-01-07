@@ -1,9 +1,26 @@
+import moment from 'moment';
+
 export function renderElapsedString(elapsed, runningSince) {
   let totalElapsed = elapsed;
   if (runningSince) {
     totalElapsed += Date.now() - runningSince;
   }
   return millisecondsToHuman(totalElapsed);
+}
+export function formattedSecondsToMoment(seconds) {
+  return moment("2015-01-01").startOf('day').seconds(seconds).format('HH:mm:ss')
+}
+
+export function secondsToMoment(s) {
+  const seconds = Math.floor(s % 60);
+  const minutes = Math.floor((s / 60) % 60);
+  const hours = Math.floor(s / 60 / 60);
+  const date  = new Date(2010, 1, 1, hours, minutes, seconds)
+  return moment(date)
+}
+
+export function momentToSeconds(value) {
+  return moment.duration(value.format("HH:mm:ss")).asSeconds()
 }
 
 export function secondsToHuman(s) {

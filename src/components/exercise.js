@@ -1,9 +1,6 @@
 import React from 'react';
-
+import * as helpers from './../helpers'
 export default class Exercise extends React.Component {
-  format = (attr) => {
-    return attr.format('HH:mm:ss')
-  }
   render() {
     return (
       <div className='ui centered card'>
@@ -12,10 +9,10 @@ export default class Exercise extends React.Component {
             {this.props.title}
           </div>
           <div className='header'>
-            Duration: {this.format(this.props.duration)}
+            Duration: {helpers.formattedSecondsToMoment(this.props.duration)}
           </div>
           <div className='header'>
-            Pause: {this.format(this.props.pause)}
+            Pause: {helpers.formattedSecondsToMoment(this.props.pause)}
           </div>
           <div className='extra content'>
             <span className='right floated edit icon' onClick={this.props.displayEdit}>

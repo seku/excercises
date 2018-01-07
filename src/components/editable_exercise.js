@@ -11,7 +11,6 @@ export default class EditableExercise extends React.Component {
     this.setState({editFormOpen: editFormOpen})
   }
   submitForm = (exercise) => {
-    console.log("here")
     this.props.submitForm(exercise)
     this.toggleEditFormOpen()
   }

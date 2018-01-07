@@ -1,28 +1,28 @@
 import React from 'react';
+import * as helpers from './../helpers'
 import 'rc-time-picker/assets/index.css'
 import TimePicker from 'rc-time-picker';
-import moment from 'moment';
 
 export default class ExerciseForm extends React.Component {
   state = {
     id: this.props.id,
     title: this.props.title || 'sex',
-    duration: this.props.duration || moment(new Date(2010, 1, 1, 0, 5, 0)),
-    pause: this.props.pause || moment(new Date(2010, 1, 1, 0, 2, 0))
+    duration: this.props.duration || 5,
+    pause: this.props.pause || 2
   }
   handleChange = (e) => {
-    console.log("is change", e.target.name)
     this.setState({[e.target.name]: e.target.value})
   }
   submitForm = () => {
     this.props.submitForm(this.state)
   }
   onDurationChange = (value) => {
-    console.log("duration change")
-    this.setState({duration: value})
+    const duration = helpers.momentToSeconds(value)
+    this.setState({duration: duration})
   }
   onPauseChange = (value) => {
-    this.setState({pause: value})
+    const pause = helpers.momentToSeconds(value)
+    this.setState({pause: pause})
   }
   render() {
     const submitText = this.state.id ? 'Update' : 'Create';
@@ -39,7 +39,7 @@ export default class ExerciseForm extends React.Component {
               <TimePicker
                 style={{ width: 100 }}
                 showSecond={true}
-                defaultValue={this.state.duration}
+                defaultValue={helpers.secondsToMoment(this.state.duration)}
                 className="xxx"
                 onChange={this.onDurationChange}
               />
@@ -49,7 +49,7 @@ export default class ExerciseForm extends React.Component {
               <TimePicker
                 style={{ width: 100 }}
                 showSecond={true}
-                defaultValue={this.state.pause}
+                defaultValue={helpers.secondsToMoment(this.state.pause)}
                 className="xxx"
                 onChange={this.onPauseChange}
               />
