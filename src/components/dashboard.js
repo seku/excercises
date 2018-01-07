@@ -4,7 +4,8 @@ import * as helpers from './../helpers'
 import Timer from './timer'
 import AddNewExercise from './add_new_exercise'
 import EditableExercisesList from './editable_exercises_list'
-
+import startSoundFile from '../sounds/start_sound.mp3'
+import finishSoundFile from '../sounds/finish_sound.mp3'
 export default class Dashboard extends React.Component {
   state = {
     totalElapsed: 0, // sec
@@ -51,7 +52,18 @@ export default class Dashboard extends React.Component {
     const newExercises = this.state.exercises.filter(e => e.id !== exerciseId)
     this.setState({exercises: newExercises})
   }
+  playStartSound = () => {
+    const sound = new Audio(startSoundFile)
+    sound.play()
+  }
+  playFinishSound = () => {
+    const finishSound = new Audio(finishSoundFile)
+    finishSound.play()
+  }
   startTimer = () => {
+    if (this.state.totalElapsed === 0) {
+      this.playStartSound()
+    }
     this.forceUpdateInterval = setInterval(() => this.updateBySecond(), 1000);
     this.setState({isRunning: true})
   };
@@ -72,8 +84,8 @@ export default class Dashboard extends React.Component {
       ]
       this.setState({totalElapsed: totalElapsed, exercises: updatedExercises});
     } else {
-      alert("finitio")
       this.stopTimer()
+      this.playFinishSound()
     }
   };
   pauseTimer = () => {

@@ -1,5 +1,7 @@
 import React from 'react';
 import * as helpers from './../helpers'
+import startSoundFile from '../sounds/start_sound.mp3'
+import pauseSoundFile from '../sounds/pause_sound.mp3'
 export default class Exercise extends React.Component {
   state = {
     isDurationFinished: false,
@@ -12,12 +14,20 @@ export default class Exercise extends React.Component {
         isPauseFinished: false
       })
     } else if (!this.state.isDurationFinished && this.props.elapsed === this.props.duration) {
-      console.log(`PLAY sound exercise finished (${this.props.title})`)
+      this.playPauseSound()
       this.setState({isDurationFinished: true})
     } else if (!this.state.isPauseFinished && (this.props.pause + this.props.duration === this.props.elapsed)) {
-      console.log(`PLAY sound pause finished after ${this.props.title}`)
+      this.playStartSound()
       this.setState({isPauseFinished: true})
     }
+  }
+  playStartSound = () => {
+    const startSound = new Audio(startSoundFile)
+    startSound.play()
+  }
+  playPauseSound = () => {
+    const pauseSound = new Audio(pauseSoundFile)
+    pauseSound.play()
   }
   durationLeft = () => {
     const elapsed      = this.props.elapsed
