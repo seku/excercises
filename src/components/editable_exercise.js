@@ -35,6 +35,7 @@ export default class EditableExercise extends React.Component {
           id={this.props.id}
           title={this.props.title}
           duration={this.props.duration}
+          elapsed={this.props.elapsed}
           pause={this.props.pause}
           displayEdit={this.toggleEditFormOpen}
           deleteExercise={this.deleteExercise}

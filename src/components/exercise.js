@@ -1,6 +1,19 @@
 import React from 'react';
 import * as helpers from './../helpers'
 export default class Exercise extends React.Component {
+  durationLeft = () => {
+    const elapsed      = this.props.elapsed
+    const duration     = this.props.duration
+    const durationLeft = (duration - elapsed > 0) ? (duration - elapsed) : 0
+    return helpers.formattedSecondsToMoment(durationLeft)
+  }
+  pauseLeft = () => {
+    const elapsed      = this.props.elapsed
+    const duration     = this.props.duration
+    const pause        = this.props.pause
+    const pauseLeft = (duration - elapsed > 0) ? pause : (pause + (duration - elapsed))
+    return helpers.formattedSecondsToMoment(pauseLeft)
+  }
   render() {
     return (
       <div className='ui centered card'>
@@ -13,6 +26,12 @@ export default class Exercise extends React.Component {
           </div>
           <div className='header'>
             Pause: {helpers.formattedSecondsToMoment(this.props.pause)}
+          </div>
+          <div className='header'>
+            Duration left: {this.durationLeft()}
+          </div>
+          <div className='header'>
+            Pause left: {this.pauseLeft()}
           </div>
           <div className='extra content'>
             <span className='right floated edit icon' onClick={this.props.displayEdit}>

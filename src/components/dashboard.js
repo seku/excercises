@@ -30,7 +30,8 @@ export default class Dashboard extends React.Component {
       title: exercise.title,
       id: uuid.v4(),
       duration: exercise.duration,
-      pause: exercise.pause
+      pause: exercise.pause,
+      elapsed: 0
     }
     this.setState({exercises: this.state.exercises.concat(newExercise)})
   }
@@ -55,8 +56,27 @@ export default class Dashboard extends React.Component {
     this.setState({isRunning: true})
   };
   updateBySecond = () => {
-    const totalElapsed = this.state.totalElapsed + 1
-    this.setState({totalElapsed: totalElapsed});
+    const totalElapsed      = this.state.totalElapsed + 1
+    const exercises         = this.state.exercises
+    const exercise          = exercises.find(e =>  {
+      console.log("e", e.elapsed)
+      return (e.pause + e.duration) > e.elapsed
+      // return e.pause > 0
+    })
+    if (exercise) {
+      const index             = exercises.indexOf(exercise)
+      const exercieNewElapsed = exercise.elapsed + 1
+      const updatedExercise   = Object.assign({}, exercise, {elapsed: exercieNewElapsed})
+      const updatedExercises  = [
+        ...exercises.slice(0, index),
+        updatedExercise,
+        ...exercises.slice(index + 1)
+      ]
+      this.setState({totalElapsed: totalElapsed, exercises: updatedExercises});
+    } else {
+      alert("finitio")
+      this.stopTimer()
+    }
   };
   pauseTimer = () => {
     clearInterval(this.forceUpdateInterval);
@@ -64,7 +84,12 @@ export default class Dashboard extends React.Component {
   };
   stopTimer = () => {
     clearInterval(this.forceUpdateInterval);
-    this.setState({isRunning: false, totalElapsed: 0})
+    const updatedExercises = this.state.exercises.map(excercise => {
+      excercise.elapsed = 0
+      return excercise
+    })
+    // why setState({excercises: updatedExercises}) is not neccessary ??
+    this.setState({isRunning: false, totalElapsed: 0, excercises: updatedExercises})
   };
   reorderExersicesList = (result) => {  // dropped outside the list
     if (!result.destination) {

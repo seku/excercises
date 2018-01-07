@@ -40,6 +40,7 @@ export default class EditableExercisesList extends React.Component {
                             key={exercise.id}
                             title={exercise.title}
                             duration={exercise.duration}
+                            elapsed={exercise.elapsed}
                             pause={exercise.pause}
                             submitForm={this.submitForm}
                             deleteExercise={this.props.deleteExercise}
