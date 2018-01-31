@@ -7,8 +7,12 @@ import AddNewExercise from './add_new_exercise'
 import EditableExercisesList from './editable_exercises_list'
 import startSoundFile from '../sounds/start_sound.mp3'
 import finishSoundFile from '../sounds/finish_sound.mp3'
+import ProjectTitle from './project_title'
+import SaveButton from './save_button'
 export default class Dashboard extends React.Component {
   state = {
+    project_title: "Oddechowe 5 minutowe",
+    project_id: uuid.v4(),
     totalElapsed: 0, // sec
     isRunning: false,
     exercises: [
@@ -143,6 +147,8 @@ export default class Dashboard extends React.Component {
   render() {
     return (
       <div className='ui two column centered grid'>
+        <ProjectTitle title={this.state.project_title}/>
+        <SaveButton state={this.state}/>
         <div className='row'>
           <div className='column centered'>
             <h1>Exercises</h1>
