@@ -1,6 +1,5 @@
 import React from 'react';
 import * as helpers from './../helpers'
-import 'rc-time-picker/assets/index.css'
 import TimePicker from 'rc-time-picker';
 
 export default class ExerciseForm extends React.Component {

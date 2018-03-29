@@ -3,14 +3,17 @@ module: {
   rules: [
     {
       test: /\.js(\.erb)?$/,
-      exclude: /node_modules/,
+      exclude: [
+        /node_modules/,
+        /\.mp3$/
+      ],
       loader: 'babel-loader',
       options: {
         presets: [
           ['env', { modules: false }]
         ]
       }
-    },
+    }
   ]
 }
 environment.loaders.get('sass').use.splice(-1, 0, {

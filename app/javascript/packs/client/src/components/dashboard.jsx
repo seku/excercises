@@ -7,6 +7,9 @@ import AddNewExercise from './add_new_exercise'
 import EditableExercisesList from './editable_exercises_list'
 // import startSoundFile from '../sounds/start_sound.mp3'
 // import finishSoundFile from '../sounds/finish_sound.mp3'
+const startSoundFile = require("file-loader!./../sounds/start_sound.mp3")
+const finishSoundFile = require("file-loader!./../sounds/finish_sound.mp3")
+
 import ProjectTitle from './project_title'
 import SaveButton from './save_button'
 export default class Dashboard extends React.Component {
@@ -79,14 +82,13 @@ export default class Dashboard extends React.Component {
     this.setState({exercises: newExercises})
   }
   playStartSound = () => {
-    console.log("play sound")
-    // const sound = new Audio(startSoundFile)
-    // sound.play()
+    // console.log("play sound")
+    const sound = new Audio(startSoundFile)
+    sound.play()
   }
   playFinishSound = () => {
-    console.log("finish sound")
-    // const finishSound = new Audio(finishSoundFile)
-    // finishSound.play()
+    const finishSound = new Audio(finishSoundFile)
+    finishSound.play()
   }
   startTimer = () => {
     if (this.state.totalElapsed === 0) {

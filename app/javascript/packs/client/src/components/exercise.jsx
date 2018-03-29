@@ -1,7 +1,10 @@
 import React from 'react';
 import * as helpers from './../helpers'
-// import startSoundFile from '../sounds/start_sound.mp3'
-// import pauseSoundFile from '../sounds/pause_sound.mp3'
+// import startSoundFile from './start_sound.mp3'
+// import pauseSoundFile from './../sounds/pause_sound.mp3'
+const startSoundFile = require("file-loader!./../sounds/start_sound.mp3")
+const pauseSoundFile = require("file-loader!./../sounds/pause_sound.mp3")
+
 export default class Exercise extends React.Component {
   state = {
     isDurationFinished: false,
@@ -22,14 +25,12 @@ export default class Exercise extends React.Component {
     }
   }
   playStartSound = () => {
-    console.log("start")
-    // const startSound = new Audio(startSoundFile)
-    // startSound.play()
+    const startSound = new Audio(startSoundFile)
+    startSound.play()
   }
   playPauseSound = () => {
-    console.log("stop")
-    // const pauseSound = new Audio(pauseSoundFile)
-    // pauseSound.play()
+    const pauseSound = new Audio(pauseSoundFile)
+    pauseSound.play()
   }
   durationLeft = () => {
     const elapsed      = this.props.elapsed
